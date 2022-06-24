@@ -1,0 +1,73 @@
+<div
+  infinite-scroll
+  [infiniteScrollDistance]="distance"
+  [infiniteScrollThrottle]="throttle"
+  (scrolled)="onScroll()"
+>
+
+<div *ngIf="showseller" class="seller">
+  <!-- <h2>All Products of {{params.sellername}}</h2> -->
+  <table id="customers" style="table-layout: fixed; width: 100%">
+    <!-- <tr *ngIf="this.params.sellername && this.params.sellername !== 'null' ">
+      <td>All Products of {{params.sellername}}</td>
+    </tr>
+    <tr *ngIf="this.params.phone && this.params.phone !== 'null' ">
+      <td >Seller Phone Number {{params.phone}}</td>
+    </tr> -->
+
+      <tr *ngIf="user">
+        <td >Seller {{user.displayName}}</td>
+      </tr>
+      <tr *ngIf="user && user.phone !== null ">
+        <td >Seller Phone Number {{user.phone}}</td>
+      </tr>
+
+  </table>
+</div>
+
+<div class="wrapper">
+  <div class="cards_wrap" *ngIf="this.products !== null">
+    <div *ngFor="let item of products" class="card_item">
+      <div  routerLink="/product/{{item.id}}">
+      <div class="card_inner">
+        <div class="card_top">
+          <img src="{{item.image1}}"  alt="">
+      </div>
+      </div>
+    
+
+      <h4 class="priceh4">
+        {{item.name}}
+      </h4>
+      <h6 class="priceh6" >
+        {{item.name}}
+      </h6>
+
+      <div class="price">
+        
+        <div class="highlight">
+          <h4 *ngFor="let h of item.highLights.split('#',2)" class="label warning">{{h}}</h4>
+        </div>
+        <span *ngIf="item.discPrice >= 1" class="delprice">৳{{item.discPrice}}</span>
+        <span class="mainprice">৳{{item.price}}</span>
+        <!-- <span style="color: rgb(255, 0, 179);">&#8722;{{item.disCount}}%</span> -->
+      </div>
+    </div>
+
+      <div class="cartbutton">
+        <button (click)="addItemToBasket(item)" *ngIf="item.colors.length == 0 && item.sizes.length == 0 && !isinBasket(item.id) && item.quantity !== 0">Add To Cart</button>
+        <button routerLink="/product/{{item.id}}" *ngIf="(item.colors.length >= 1 || item.sizes.length >= 1) && !isinBasket(item.id) && item.quantity !== 0">Select Options</button>
+        <button class="added" *ngIf="isinBasket(item.id)">Added</button>
+        <button *ngIf="item.quantity == 0">No Quantity</button>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+
+<div *ngIf="noproduct" class="nomore">
+  <h1 >No Product</h1>
+ </div>
